@@ -66,7 +66,21 @@ var isEven = function(n) {
 // 5. Sum all integers below a given integer.
 // sumBelow(10); // 45
 // sumBelow(7); // 21
-var sumBelow = function(n) {
+var sumBelow = function(n, sum = 0) {
+  // base case
+  // if n is 0, return sum
+  if (!n) {
+    return sum;
+  }
+
+  // else, add number below n to sum
+  if (n > 0) {
+    sum += n - 1;
+    return sumBelow(n - 1, sum);
+  } else {
+    sum += n + 1;
+    return sumBelow(n + 1, sum);
+  }
 };
 
 // 6. Get the integers in range (x, y).
@@ -79,14 +93,48 @@ var range = function(x, y) {
 // 8^2 = 8 x 8 = 64.  Here, 8 is the base and 2 is the exponent.
 // Example:  exponent(4,3);  // 64
 // https://www.khanacademy.org/computing/computer-science/algorithms/recursive-algorithms/a/computing-powers-of-a-number
-var exponent = function(base, exp) {
+var exponent = function(base, exp, quotient = base) {
+  // base case(s)
+  // if exponent is 0, return 1
+  // if exponent is 1, return quotient
+  if (!exp) {
+    return 1;
+  } else if (exp === 1) {
+    return quotient;
+  } else if (exp === -1) {
+    quotient /= base;
+    quotient /= base;
+    return quotient;
+  }
+
+  if (exp > 0) {
+    quotient *= base;
+    return exponent(base, exp - 1, quotient);
+  } else {
+    quotient /= base;
+    return exponent(base, exp + 1, quotient)
+  }
 };
 
 // 8. Determine if a number is a power of two.
 // powerOfTwo(1); // true
 // powerOfTwo(16); // true
 // powerOfTwo(10); // false
-var powerOfTwo = function(n) {
+var powerOfTwo = function(n, val = 2) {
+  // base case
+  // if val is equal to n or n is equal to 1
+  // return true, else if val is greater than n
+  // return false
+  if (val === n || n === 1) {
+    return true;
+  } else if (val > n) {
+    return false;
+  }
+
+  // recursive case
+  // val multiplied by 2, return powerOfTwo and pass in n and val again
+  val *= 2;
+  return powerOfTwo(n, val);
 };
 
 // 9. Write a function that accepts a string a reverses it.
@@ -95,6 +143,18 @@ var reverse = function(string) {
 
 // 10. Write a function that determines if a string is a palindrome.
 var palindrome = function(string) {
+  string = string.toLowerCase();
+  string = string.replaceAll(' ', '');
+
+  if (!string.length || string.length === 1) {
+    return true;
+  }
+
+  if (string[0] === string[string.length - 1]) {
+    return palindrome(string.slice(1, -1));
+  } else {
+    return false;
+  }
 };
 
 // 11. Write a function that returns the remainder of x divided by y without using the
@@ -108,7 +168,24 @@ var modulo = function(x, y) {
 // 12. Write a function that multiplies two numbers without using the * operator  or
 // JavaScript's Math object.
 // ATTENTION DO NOT LEAVE COMMENTS IN THIS FUNCTION. The test is looking for any ('/').
-var multiply = function(x, y) {
+
+// x = 78, y = 453
+// x = 453, y = 78
+var multiply = function(x, y, sum = 0) {
+  if (x < y) {
+    sum = y;
+    return multiply(y, x, sum);
+  }
+
+  sum += x;
+
+  if (y === 1) {
+    return sum;
+  } else if (y === 0) {
+    return 0;
+  }
+  
+  return multiply(x, y - 1, sum);
 };
 
 // 13. Write a function that divides two numbers without using the / operator  or
