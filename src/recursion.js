@@ -173,7 +173,6 @@ var modulo = function(x, y) {
 // x = 453, y = 78
 var multiply = function(x, y, sum = 0) {
   if (x < y) {
-    sum = y;
     return multiply(y, x, sum);
   }
 
@@ -183,9 +182,15 @@ var multiply = function(x, y, sum = 0) {
     return sum;
   } else if (y === 0) {
     return 0;
+  } else if (y === -1) {
+    return -sum
   }
   
-  return multiply(x, y - 1, sum);
+  if (y < 0) {
+    return multiply(x, y + 1, sum);
+  } else {
+    return multiply(x, y - 1, sum);
+  }
 };
 
 // 13. Write a function that divides two numbers without using the / operator  or
