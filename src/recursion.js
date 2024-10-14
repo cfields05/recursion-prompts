@@ -258,22 +258,76 @@ var rMap = function (array, callback, newArr = []) {
 // var testobj = {'e': {'x':'y'}, 't':{'r': {'e':'r'}, 'p': {'y':'r'}},'y':'e'};
 // countKeysInObj(testobj, 'r') // 1
 // countKeysInObj(testobj, 'e') // 2
-var countKeysInObj = function (obj, key) {
+var countKeysInObj = function (obj, key, counter = 0) {
 
+  let keys = Object.keys(obj);
+
+  keys.forEach((item) => {
+    if (item === key) {
+      counter++;
+    } else if (typeof obj[item] === 'object') {
+      counter = countKeysInObj(obj[item], key, counter);
+    }
+  });
+
+  return counter;
 };
 
 // 22. Write a function that counts the number of times a value occurs in an object.
 // var testobj = {'e': {'x':'y'}, 't':{'r': {'e':'r'}, 'p': {'y':'r'}},'y':'e'};
 // countValuesInObj(testobj, 'r') // 2
 // countValuesInObj(testobj, 'e') // 1
-var countValuesInObj = function (obj, value) {
+var countValuesInObj = function (obj, value, counter = 0) {
 
+  let values = Object.values(obj);
+
+  values.forEach((item) => {
+    if (item === value) {
+      counter++;
+    } else if (typeof item === 'object') {
+      counter = countValuesInObj(item, value, counter);
+    }
+  });
+
+  return counter;
 };
 
 // 23. Find all keys in an object (and nested objects) by a provided name and rename
 // them to a provided new name while preserving the value stored at that key.
-var replaceKeysInObj = function (obj, key, newKey) {
+var replaceKeysInObj = function (obj, key, newKey, newObj = {}) {
 
+  // iterate thru obj
+  // if keys in obj match specified key, push value
+  // but under the name newKey instead
+  // otherwise push to newObj as is
+
+  let keys = Object.keys(obj);
+
+  // iterate thru keys of obj
+  keys.forEach((item) => {
+    // check if item is equal to key
+    if (item === key) {
+      // if it is, check if value is an object
+      if (typeof obj[item] === 'object') {
+        // set newKey value to iterate thru object again
+        newObj[newKey] = replaceKeysInObj(obj[item], key, newKey, newObj[item]);
+      } else {
+        // if value is not an object just set newKey value to be old key value
+        newObj[newKey] = obj[key];
+      }
+    } else {
+      // if it isn't, do the same as before but with regular key instead of newKey
+      if (typeof obj[item] === 'object') {
+        // if obj, set value to be iterated obj
+        newObj[item] = replaceKeysInObj(obj[item], key, newKey, newObj[item]);
+      } else {
+        // if not, set value to be same value as before
+        newObj[item] = obj[item];
+      }
+    }
+  });
+
+  return newObj;
 };
 
 // 24. Get the first n Fibonacci numbers.  In the Fibonacci Sequence, each subsequent

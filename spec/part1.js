@@ -726,7 +726,7 @@
 
 
 
-    xdescribe('21. Count key in object', function() {
+    describe('21. Count key in object', function() {
       var input = {'e': {'x':'y'}, 't':{'r': {'e':'r'}, 'p': {'y':'r'}},'y':'e'};
 
       it('should return a number', function() {
@@ -756,7 +756,7 @@
 
 
 
-    xdescribe('22. Count value in object', function() {
+    describe('22. Count value in object', function() {
       var input = {'e': {'x':'y'}, 't':{'r': {'e':'r'}, 'p': {'y':'r'}},'y':'e'};
 
       it('should return a number', function() {
@@ -786,7 +786,7 @@
 
 
 
-    xdescribe('23. Replace keys in object', function() {
+    describe('23. Replace keys in object', function() {
 
       var tallyKeys = function(obj) {
         var count = 0;
